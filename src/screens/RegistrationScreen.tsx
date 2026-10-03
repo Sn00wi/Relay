@@ -1,15 +1,10 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-const styles = StyleSheet.create({
-
-});
-
+import React from "react";
+import { View } from "react-native";
 
 export default function RegistrationScreen() {
-    return (
-        <View >
-        
-        </View>
-    );
+  return (
+    <View>
+      
+    </View>
+  );
 }

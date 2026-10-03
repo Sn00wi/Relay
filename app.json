@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Obsidian-chat",
-    "slug": "Obsidian-chat",
+    "name": "Relay",
+    "slug": "Relay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

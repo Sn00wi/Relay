@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { useNavigation, NavigationProp } from '@react-navigation/native'; 
 import { StatusBar } from "expo-status-bar";
 import MyButton from "../components/MyButton";
 import { COLORS, TextBold } from "../theme/Theme";
@@ -16,6 +17,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     color: COLORS.textTertiary,
+    textAlign: "center",
   },
   textContainer: {
     flex: 1, // Takes up all the empty space above the button
@@ -24,16 +26,23 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   buttonContainer: {
-    marginBottom: 50, // Just a little padding from the bottom edge
+    paddingBottom: 50,// Just a little padding from the bottom edge
+    gap: 10,
   },
 });
 
+type RootStackParamList = {
+  Onboarding: undefined;
+  Authorization: undefined;
+  Registration: undefined;
+};
+
 export default function OnboardingScreen() {
-  const { width, height } = useWindowDimensions();
+  const navigate = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
-      <StatusBar style={COLORS.backgroundColor} />
+      <StatusBar style="light" />
 
       <View style={styles.textContainer}>
         <Text style={[styles.title, TextBold]}>Welcome to Relay</Text>
@@ -43,7 +52,9 @@ export default function OnboardingScreen() {
       </View>
 
       <View style={styles.buttonContainer}>
-        <MyButton text={"login"} />
+        <MyButton text={"login"} onPress={() => navigate.navigate("Authorization")} />
+        <Text style={styles.subTitle}>or</Text>
+        <MyButton text={"Registration"} onPress={() => navigate.navigate("Registration")}  />
       </View>
     </View>
   );
