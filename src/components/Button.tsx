@@ -5,14 +5,11 @@ import { COLORS } from '../theme/Theme';
 const styles = StyleSheet.create({
   button: {
     backgroundColor: COLORS.secondaryColor,
-    color: COLORS.baseColor,
     borderRadius: 6,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 14,
     paddingRight: 14,
-    width: 340,
-    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -29,7 +26,7 @@ type Props = {
   onPress?: () => void;
 };
 
-export default function MyButton({ text, onPress }: Props) {
+export default function Button({ text, onPress }: Props) {
   return (
     <Pressable
       style={({ pressed }) => [

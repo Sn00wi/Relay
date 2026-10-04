@@ -1,61 +1,57 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { useNavigation, NavigationProp } from '@react-navigation/native'; 
 import { StatusBar } from "expo-status-bar";
-import MyButton from "../components/MyButton";
-import { COLORS, TextBold } from "../theme/Theme";
+import Button from "../components/Button";
+import { TextBold, TextTertiary, buttonContainer, SPACING } from "../theme/Theme";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../navigation/types";
+import Screen from "../components/Screen";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
-    backgroundColor: COLORS.background,
   },
-  title: {
-    textAlign: "center",
-    color: COLORS.text,
-  },
-  subTitle: {
-    color: COLORS.textTertiary,
+  centeredText: {
     textAlign: "center",
   },
   textContainer: {
-    flex: 1, // Takes up all the empty space above the button
-    justifyContent: "center", // Centers the text vertically in that space
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    gap: 8,
+    width: "100%",
+    paddingVertical: SPACING.screen,
+    gap: SPACING.small,
   },
   buttonContainer: {
-    paddingBottom: 50,// Just a little padding from the bottom edge
     gap: 10,
   },
 });
 
-type RootStackParamList = {
-  Onboarding: undefined;
-  Authorization: undefined;
-  Registration: undefined;
-};
+type Props = NativeStackScreenProps<RootStackParamList, "Onboarding">;
 
-export default function OnboardingScreen() {
-  const navigate = useNavigation<NavigationProp<RootStackParamList>>();
-
+export default function OnboardingScreen({ navigation }: Props) {
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <StatusBar style="light" />
 
       <View style={styles.textContainer}>
-        <Text style={[styles.title, TextBold]}>Welcome to Relay</Text>
-        <Text style={styles.subTitle}>
+        <Text style={[TextBold, styles.centeredText]}>Welcome to Relay</Text>
+        <Text style={[TextTertiary, styles.centeredText]}>
           Message with other people more easily.
         </Text>
       </View>
 
-      <View style={styles.buttonContainer}>
-        <MyButton text={"login"} onPress={() => navigate.navigate("Authorization")} />
-        <Text style={styles.subTitle}>or</Text>
-        <MyButton text={"Registration"} onPress={() => navigate.navigate("Registration")}  />
+      <View style={[buttonContainer, styles.buttonContainer]}>
+        <Button
+          text={"login"}
+          onPress={() => navigation.navigate("Authorization")}
+        />
+        <Text style={[TextTertiary, styles.centeredText]}>or</Text>
+        <Button
+          text={"Registration"}
+          onPress={() => navigation.navigate("Registration")}
+        />
       </View>
-    </View>
+    </Screen>
   );
 }
