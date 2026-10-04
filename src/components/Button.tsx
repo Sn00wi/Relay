@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
-import { COLORS } from '../theme/Theme';
+import { Colors } from '../theme/Theme';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: COLORS.secondaryColor,
+    backgroundColor: Colors.secondaryColor,
     borderRadius: 6,
     paddingTop: 10,
     paddingBottom: 10,
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    color: COLORS.baseColor,
+    color: Colors.baseColor,
   },
   buttonPressed: {
       opacity: 0.7, 
