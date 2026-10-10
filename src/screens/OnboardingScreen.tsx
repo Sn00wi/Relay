@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Button from "../components/Button";
-import { TextBold, TextTertiary, Gaps, Colors } from "../theme/Theme";
+import { MainText, SupportText, Gaps, Colors } from "../theme/Theme";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "../navigation/types";
+
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +23,8 @@ const styles = StyleSheet.create({
     gap: Gaps.gp16,
   },
   buttonContainer: {
-    gap: 10,
-    width: '100%',
+    gap: Gaps.gp10,
+    width: "100%",
     maxWidth: 340,
     paddingBottom: Gaps.gp24,
   },
@@ -41,26 +42,27 @@ export default function OnboardingScreen({ navigation }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <StatusBar style="light" />        
-        
+        <StatusBar style="light" />
+
         <View style={styles.textContainer}>
-          <Text style={TextBold}>Welcome to Relay</Text>
-          <Text style={TextTertiary}>Message with other people more easily.</Text>
+          <Text style={MainText}>Welcome to Relay</Text>
+          <Text style={SupportText}>
+            Message with other people more easily.
+          </Text>
         </View>
       </View>
-      
-        <View style={styles.buttonContainer}>
-          <Button
-            text={"login"}
-            onPress={() => navigation.navigate("Authorization")}
-          />
-          <Text style={TextTertiary}>or</Text>
-          <Button
-            text={"Registration"}
-            onPress={() => navigation.navigate("Registration")}
-          />
-        </View> 
+
+      <View style={styles.buttonContainer}>
+        <Button
+          text={"Log in"}
+          onPress={() => navigation.navigate("Authorization")}
+        />
+        <Text style={SupportText}>or</Text>
+        <Button
+          text={"Registration"}
+          onPress={() => navigation.navigate("Registration")}
+        />
+      </View>
     </View>
   );
 }
-// Переписать логику центрирования , добавить  дополнительный view для центрирования

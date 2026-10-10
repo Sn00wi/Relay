@@ -1,19 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, Pressable } from 'react-native';
-import { Colors } from '../theme/Theme';
+import { Colors, Radius, Gaps, FontSizes } from '../theme/Theme';
 
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.secondaryColor,
-    borderRadius: 6,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 14,
-    paddingRight: 14,
+    borderRadius: Radius.r6,
+    paddingBlock: Gaps.gp10,
+    paddingHorizontal: Gaps.gp14,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
+    fontWeight: '600',
+    fontSize: FontSizes.fz14,
+    lineHeight: 20,
     color: Colors.baseColor,
   },
   buttonPressed: {

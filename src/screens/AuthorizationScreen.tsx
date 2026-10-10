@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet,  View,  Text, ImageBackground, Pressable,} from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import type { RootStackParamList } from "../navigation/types";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
-  TextBold,
-  TextTertiary,
+  MainText,
+  SupportText,
   TextSemiBold,
+  TextBrandSecondary,
   Colors,
   Gaps,
 } from "../theme/Theme";
 
-
+const BackgroundImage = require("../../assets/background.png");
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +21,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     backgroundColor: Colors.background,
+    width: "100%",
+    height: "100%",
   },
   textContainer: {
     width: "100%",
@@ -32,8 +35,8 @@ const styles = StyleSheet.create({
     paddingVertical: Gaps.gp24,
   },
   buttonContainer: {
-    gap: 16,
-    width: '100%',
+    gap: Gaps.gp16,
+    width: "100%",
     maxWidth: 340,
     paddingBottom: Gaps.gp24,
   },
@@ -41,21 +44,26 @@ const styles = StyleSheet.create({
 
 type Props = NativeStackScreenProps<RootStackParamList, "Authorization">;
 
-
 export default function AuthorizationScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={BackgroundImage}
+      resizeMode={"cover"}
+      style={styles.container}
+    >
       <View style={styles.content}>
-        <View style={styles.textContainer}>
-          <Text style={TextBold}>Welcome back!</Text>
-          <Text style={TextTertiary}>We're excited to see you again!</Text>
-        </View>
         
+        <View style={styles.textContainer}>
+          <Text style={MainText}>Welcome back!</Text>
+          <Text style={SupportText}>We're excited to see you again!</Text>
+        </View>
+
         <View style={styles.buttonContainer}>
           <Text style={TextSemiBold}>Account Information</Text>
+          
           <Input
             value={email}
             onChangeText={setEmail}
@@ -63,22 +71,39 @@ export default function AuthorizationScreen({ navigation }: Props) {
             keyboardType={"email-address"}
             autoCapitalize={"none"}
             autoCorrect={false}
+            backgroundColor={Colors.background}
           />
-          <Input
-            value={password}
-            onChangeText={setPassword}
-            placeholder={"Password"}
-            keyboardType={"default"}
-            autoCapitalize={"none"}
-            autoCorrect={false}
+          
+          <View>
+            <Input
+              value={password}
+              onChangeText={setPassword}
+              placeholder={"Password"}
+              keyboardType={"default"}
+              autoCapitalize={"none"}
+              autoCorrect={false}
+              backgroundColor={Colors.background}
+              variant="password"
+            />
+            <Pressable
+              onPress={() => {}}
+              hitSlop={2}
+            >
+              <Text style={TextBrandSecondary}>Forgot your password?</Text>
+            </Pressable>
+          </View>
+          
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Button text={"Log in"} />
+          <Button
+            text={"Back"}
+            onPress={() => navigation.navigate("Onboarding")}
           />
         </View>
         
-        <View style={styles.buttonContainer}>
-          <Button text={"login"} />
-          <Button text={"Back"} onPress={() => navigation.navigate("Onboarding")}/>
-        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
