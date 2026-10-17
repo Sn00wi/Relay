@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, type TextInputProps, Pressable} from "react-native";
+import { StyleSheet, View, TextInput, type TextInputProps, Pressable, Text} from "react-native";
 import { Colors, Gaps, Radius } from "../theme/Theme";
 import { Image } from "expo-image";
 
@@ -11,6 +11,7 @@ type Props = TextInputProps & {
   onChangeText: (text: string) => void;
   backgroundColor?: string;
   variant?: 'default' | 'password' | 'search';
+  error?: string;
 };
 
 const styles = StyleSheet.create({
@@ -28,6 +29,9 @@ const styles = StyleSheet.create({
   errorInput: {
     borderColor: Colors.error,
   },
+  errorText: {
+    color: Colors.error
+  },
   icon: {
     position: "absolute",
     right: 12,
@@ -42,8 +46,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Input({style, backgroundColor, variant = 'default', ...props }: Props) {
+export default function Input({style, backgroundColor, variant = 'default', error, ...props }: Props) {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const visibleError = isFocused ? undefined : error;
+
   const isPassword = variant === 'password';
   
   return (
@@ -51,8 +58,17 @@ export default function Input({style, backgroundColor, variant = 'default', ...p
       <TextInput
         placeholderTextColor={Colors.grayBgPrimary}
         {...props}
+        onFocus={(event) => {
+          setIsFocused(true);
+          props.onFocus?.(event);
+        }}
+        onBlur={(event) => {
+          setIsFocused(false);
+          props.onBlur?.(event);
+        }}
+
         secureTextEntry={isPassword ? !isPasswordVisible : props.secureTextEntry}
-        style={[styles.input, { backgroundColor }, style, isPassword && styles.inputWithIconEye,]}
+        style={[styles.input, { backgroundColor }, style, isPassword && styles.inputWithIconEye, !!visibleError && styles.errorInput]}
       />
       {isPassword && (
         <Pressable
@@ -71,6 +87,9 @@ export default function Input({style, backgroundColor, variant = 'default', ...p
               pointerEvents="none"
             />         
         </Pressable>
+      )}
+      {visibleError && (
+        <Text style={styles.errorText}>{ visibleError }</Text>
       )}
     </View>
   );

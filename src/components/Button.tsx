@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
 type Props = {
   text: string;
   onPress?: () => void;
+  backgroundColor?: string;
+  variant?: 'default' | 'back' | 'choice';
 };
 
 export default function Button({ text, onPress }: Props) {

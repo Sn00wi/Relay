@@ -13,6 +13,9 @@ import {
   Gaps,
 } from "../theme/Theme";
 
+import { login } from '../services/auth';
+
+
 const BackgroundImage = require("../../assets/background.png");
 
 const styles = StyleSheet.create({
@@ -47,7 +50,39 @@ type Props = NativeStackScreenProps<RootStackParamList, "Authorization">;
 export default function AuthorizationScreen({ navigation }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
+  const [loginError, setLoginError] = useState<string | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  
+  const emailEmpty = email.trim() === '';
+  const passwordEmpty = password.trim() === '';
+
+  const submitClick = async () => {
+    if (isLoading) return;
+    
+    setIsSubmitted(true);
+    setLoginError(undefined);
+
+    if (emailEmpty || passwordEmpty) return;
+
+    setIsLoading(true);
+
+    try {
+      const result = await login({ email, password });
+      navigation.navigate("MainScreen", {
+        session: result,  
+      })
+    } catch (err) {
+      setLoginError(err instanceof Error ? err.message : 'Unable to log in')
+    } finally {
+        setIsLoading(false);
+      }
+    
+    return
+}
+  
   return (
     <ImageBackground
       source={BackgroundImage}
@@ -66,24 +101,38 @@ export default function AuthorizationScreen({ navigation }: Props) {
           
           <Input
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(text) => {
+              setEmail(text)
+              setLoginError(undefined);
+            }}
             placeholder={"Input your email"}
             keyboardType={"email-address"}
             autoCapitalize={"none"}
             autoCorrect={false}
             backgroundColor={Colors.background}
+            error={
+              isSubmitted && emailEmpty ? "This field is required" : loginError
+            }
+            editable={!isLoading}
           />
           
           <View>
             <Input
               value={password}
-              onChangeText={setPassword}
+              onChangeText={(text) => {
+                setPassword(text)
+                setLoginError(undefined);
+              }}
               placeholder={"Password"}
               keyboardType={"default"}
               autoCapitalize={"none"}
               autoCorrect={false}
               backgroundColor={Colors.background}
               variant="password"
+              error={
+                isSubmitted && passwordEmpty ? "This field is required" : loginError
+              }
+              editable={!isLoading}
             />
             <Pressable
               onPress={() => {}}
@@ -94,9 +143,12 @@ export default function AuthorizationScreen({ navigation }: Props) {
           </View>
           
         </View>
-
+        
         <View style={styles.buttonContainer}>
-          <Button text={"Log in"} />
+          <Button
+            text={isLoading ? 'Logging in...' : 'Log in'}
+            onPress={submitClick}
+          />
           <Button
             text={"Back"}
             onPress={() => navigation.navigate("Onboarding")}
@@ -107,3 +159,4 @@ export default function AuthorizationScreen({ navigation }: Props) {
     </ImageBackground>
   );
 }
+// Изменить кнопку назад 

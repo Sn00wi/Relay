@@ -60,7 +60,7 @@ export default function OnboardingScreen({ navigation }: Props) {
         <Text style={SupportText}>or</Text>
         <Button
           text={"Registration"}
-          onPress={() => navigation.navigate("Registration")}
+          onPress={() => navigation.navigate("RegistrationFirst")}
         />
       </View>
     </View>
