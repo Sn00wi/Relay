@@ -66,7 +66,6 @@ export default function Input({style, backgroundColor, variant = 'default', erro
           setIsFocused(false);
           props.onBlur?.(event);
         }}
-
         secureTextEntry={isPassword ? !isPasswordVisible : props.secureTextEntry}
         style={[styles.input, { backgroundColor }, style, isPassword && styles.inputWithIconEye, !!visibleError && styles.errorInput]}
       />

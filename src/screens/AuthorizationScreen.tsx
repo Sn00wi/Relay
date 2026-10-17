@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet,  View,  Text, ImageBackground, Pressable,} from "react-native";
 import Button from "../components/Button";
 import Input from "../components/Input";
@@ -12,8 +12,7 @@ import {
   Colors,
   Gaps,
 } from "../theme/Theme";
-
-import { login } from '../services/auth';
+import useAuthorization from "../hooks/useAuthorization";
 
 
 const BackgroundImage = require("../../assets/background.png");
@@ -48,41 +47,23 @@ const styles = StyleSheet.create({
 type Props = NativeStackScreenProps<RootStackParamList, "Authorization">;
 
 export default function AuthorizationScreen({ navigation }: Props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false)
-
-  const [loginError, setLoginError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
-
   
-  const emailEmpty = email.trim() === '';
-  const passwordEmpty = password.trim() === '';
+  const {
+    email,
+    setEmail,
+    loginError,
+    setLoginError,
+    password,
+    setPassword,
+    passwordEmpty,
+    isSubmitted,
+    emailEmpty,
+    isLoading,
+    submitClick,
+  } = useAuthorization((session) => {
+    navigation.navigate("MainScreen", { session })
+  })
 
-  const submitClick = async () => {
-    if (isLoading) return;
-    
-    setIsSubmitted(true);
-    setLoginError(undefined);
-
-    if (emailEmpty || passwordEmpty) return;
-
-    setIsLoading(true);
-
-    try {
-      const result = await login({ email, password });
-      navigation.navigate("MainScreen", {
-        session: result,  
-      })
-    } catch (err) {
-      setLoginError(err instanceof Error ? err.message : 'Unable to log in')
-    } finally {
-        setIsLoading(false);
-      }
-    
-    return
-}
-  
   return (
     <ImageBackground
       source={BackgroundImage}
@@ -141,7 +122,6 @@ export default function AuthorizationScreen({ navigation }: Props) {
               <Text style={TextBrandSecondary}>Forgot your password?</Text>
             </Pressable>
           </View>
-          
         </View>
         
         <View style={styles.buttonContainer}>
