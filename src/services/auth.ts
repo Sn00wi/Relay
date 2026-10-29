@@ -50,6 +50,6 @@ export async function login({
       email: user.email,
       name: user.name,
     },
-    token: `demo-token-${user.id}`,
+    token: user.id,
   };
 }
