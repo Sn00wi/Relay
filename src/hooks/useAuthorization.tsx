@@ -6,8 +6,9 @@ import { AuthSession, login } from '../services/auth';
 export default function useAuthorization(
   onSuccess: (session: AuthSession) => void
 ) {   
-  const [email, setEmail] = useState("");
-  const emailEmpty = email.trim() === '';
+  
+  const [loginInput, setLoginInput] = useState("");
+  const loginInputEmpty = loginInput.trim() === '';
   
   const [password, setPassword] = useState("");
   const passwordEmpty = password.trim() === '';
@@ -22,12 +23,12 @@ export default function useAuthorization(
     setIsSubmitted(true);
     setLoginError(undefined);
 
-    if (emailEmpty || passwordEmpty) return;
+    if (loginInput || passwordEmpty) return;
 
     setIsLoading(true);
 
     try {
-      const result = await login({ email, password });
+      const result = await login({ loginInput, password });
         onSuccess(result)
     } catch (err) {
         setLoginError(err instanceof Error ? err.message : 'Unable to log in')
@@ -38,15 +39,15 @@ export default function useAuthorization(
     return
 }
   return {
-    email,
-    setEmail,
     loginError,
     setLoginError,
+    loginInput,
+    setLoginInput,
+    loginInputEmpty,
     password,
     setPassword,
     passwordEmpty,
     isSubmitted,
-    emailEmpty,
     isLoading,
     submitClick,
   }

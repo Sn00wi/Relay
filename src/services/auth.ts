@@ -1,12 +1,12 @@
 type Credentials = {
-  email: string;
+  loginInput: string;
   password: string;
 };
 
 export type AuthSession = {
   user: {
     id: string;
-    email: string;
+    loginInput: string;
     name: string;
   };
   token: string;
@@ -15,20 +15,20 @@ export type AuthSession = {
 const users = [
   {
     id: '1',
-    email: 'alex@relay.test',
+    loginInput: 'alex@relay.test',
     password: 'Alex12345',
     name: 'Alex',
   },
   {
     id: '2',
-    email: 'anna@relay.test',
+    loginInput: 'anna@relay.test',
     password: 'Anna12345',
     name: 'Anna',
   },
 ];
 
 export async function login({
-  email,
+  loginInput,
   password,
 }: Credentials): Promise<AuthSession> {
   
@@ -36,7 +36,7 @@ export async function login({
 
   const user = users.find(
     user =>
-      user.email === email.trim().toLowerCase() &&
+      user.loginInput === loginInput.trim().toLowerCase() &&
       user.password === password
   );
 
@@ -47,7 +47,7 @@ export async function login({
   return {
     user: {
       id: user.id,
-      email: user.email,
+      loginInput: user.loginInput,
       name: user.name,
     },
     token: user.id,

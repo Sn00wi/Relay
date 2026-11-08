@@ -49,15 +49,15 @@ type Props = NativeStackScreenProps<RootStackParamList, "Authorization">;
 export default function AuthorizationScreen({ navigation }: Props) {
   
   const {
-    email,
-    setEmail,
     loginError,
     setLoginError,
     password,
     setPassword,
+    loginInput,
+    setLoginInput,
+    loginInputEmpty,
     passwordEmpty,
     isSubmitted,
-    emailEmpty,
     isLoading,
     submitClick,
   } = useAuthorization((session) => {
@@ -81,18 +81,17 @@ export default function AuthorizationScreen({ navigation }: Props) {
           <Text style={TextSemiBold}>Account Information</Text>
           
           <Input
-            value={email}
+            value={loginInput}
             onChangeText={(text) => {
-              setEmail(text)
+              setLoginInput(text)
               setLoginError(undefined);
             }}
-            placeholder={"Input your email"}
-            keyboardType={"email-address"}
+            placeholder={"Input your email or login"}
             autoCapitalize={"none"}
             autoCorrect={false}
             backgroundColor={Colors.background}
             error={
-              isSubmitted && emailEmpty ? "This field is required" : loginError
+              isSubmitted && loginInputEmpty ? "This field is required" : loginError
             }
             editable={!isLoading}
           />
